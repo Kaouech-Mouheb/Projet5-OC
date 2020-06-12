@@ -1,11 +1,15 @@
-console.log("home.js");
-const array = ["rouge", "vert", "bleu"];
-const list = document.getElementById("list");
-console.log(list);
-const addTextToHtml = (color) => {
-    console.log(color);
-const newDiv = document.createElement("div");
-newDiv.innerHTML = color;
-list.appendChild(newDiv);
+const chatbar = document.getElementById('js-chatbar');
+
+function toggle() {
+
+  if (chatbar.classList.contains('is-active')) {
+    chatbar.classList.add("drop");
+    chatbar.classList.add("drop");
+    chatbar.classList.remove("is-active");
+    setTimeout(function(){chatbar.classList.remove("drop")},600);
+  } else {
+    chatbar.classList.add("bop");
+    chatbar.classList.add("is-active");
+    setTimeout(function(){chatbar.classList.remove("bop")},600);
+  }
 }
-array.map(color => addTextToHtml(color));

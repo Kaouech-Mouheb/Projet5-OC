@@ -2,29 +2,29 @@
 .bg-dark{
     box-shadow: rgb(156, 152, 152) 5px 4px 3px;
     line-height: 2.75em;
-    position: relative;
+    position: relative
 }
 .navbar-collapse{
    position: absolute;
-   right:20px;
+   right:20px
 }
 .nav-link{
   background:linear-gradient(to top, rgb(255, 248, 248), transparent 3px) no-repeat;
   background-size: 0% 100%;
-  transition:background-size .5s ease-out;
+  transition:background-size .5s ease-out
 }
 
 .nav-link:hover{
-  background-size: 90% 100%;
+  background-size: 90% 100%
 }
 /*Personalisation de police*/
 h1{
   background: linear-gradient(to right, #0e0d0d 1%, #f6916a);
   -webkit-text-fill-color:transparent;
-  -webkit-background-clip:text;
+  -webkit-background-clip:text
 }
 .fas-jaune{
-    color:#F5D047;
+    color:#F5D047
 }
   /*Intégration des icone du chat pour les réseaux sociaux*/
 .social-media{
@@ -34,13 +34,13 @@ h1{
     opacity:1;
     -webkit-box-shadow: 2px 0px 33px -4px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 0px 33px -4px rgba(0,0,0,0.75);
-        box-shadow: 2px 0px 33px -4px rgba(0,0,0,0.75);    
+        box-shadow: 2px 0px 33px -4px rgba(0,0,0,0.75)    
 }
 .social-media>:hover{
-    opacity: 0.8;
+    opacity: 0.8
 }
 .social-media> a{
-    display: block;
+    display: block
 }
 .animation-img{
    opacity: 1;
@@ -48,11 +48,11 @@ h1{
       -moz-transform:scale(1);
       -o-transform:scale(1);
       -ms-transform:scale(1);
-          transform:scale(1);
+          transform:scale(1)
   }
 .h2-orientation{
     transform: rotate(10deg);
-    text-align: center;
+    text-align: center
 }
 
 /*modification de footer*/
@@ -62,19 +62,19 @@ h1{
     font-size: 0.9em;
     font-weight: bold;
     color:black !important;
-    background: rgb(112, 112, 112);
+    background: rgb(112, 112, 112)
 }
 .bg-dark_custom a{
-    color:black !important;
+    color:black !important
 }
 /*cacher ce contenu dans les résolutions autres que mobile*/
 .visible-sm{
     display: none;
     margin: 0px auto;
-    width:100px;
+    width:100px
 }
 .fab{
-    color:white !important;
+    color:white !important
 }
 .bi-chat-square-dots-fill{
     position: fixed;
@@ -87,55 +87,81 @@ h1{
 /*version mobile & media queries*/
 @media (max-width:576px){
     h1{
-        font-size: 1.5em;
+        font-size: 1.5em
     }
     h2{
         font-size: 0.9em;
-        text-align: center;
+        text-align: center
     }
     .display-none{
-        display: none;
+        display: none
     }
     .fas{
-        font-size: 0.7em;
+        font-size: 0.7em
     }
     .h2-orientation{
-        transform: rotate(0deg);
+        transform: rotate(0deg)
     }
     .img-orientation{
-        transform: rotate(0deg);
+        transform: rotate(0deg)
     }
     .visible-sm{
-        display: block;
+        display: block
     }
     .chat-bar {
         bottom:20px !important;
-        left:5% !important;
+        left:5% !important
       }
       .navbar-collapse{
         position: relative;
-        right:0px;
+        right:0px
      }
      .nav-link:hover{
-      background-size: 0% 0%;
+      background-size: 0% 0%
     }
 
 }
 /*version ipad*/
 @media (min-width:577px) and (max-width:992px){
     .h2, h2{
-        font-size: 1.5em !important;
+        font-size: 1.5em !important
     }
     .chat-bar {
         bottom:20px !important;
-        left:55% !important;
+        left:55% !important
       }
       .navbar-collapse{
         position: relative;
-        right:0px;
+        right:0px
      }
      .nav-link:hover{
-      background-size: 0% 0%;
+      background-size: 0% 0%
     }
 }
+/*modification des classes incrémanter par le javascript*/
+.button{
+    background: black;
+    color:white;
+    border-radius: 1em;
+    padding: 6px;
+    margin :50px 0px 30px 50px
+}
+.select-option{
+    display: block;
+    margin-left: 50px;
+}
+.label-option{
+    display: block;
+    margin-left: 50px
+}
+.description-product{
+    margin: 50px
+}
+.price-product{
+    font-size: 1.6em;
+    text-align: center
+}
+ 
+  
+
 

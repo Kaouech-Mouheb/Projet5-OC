@@ -1,24 +1,7 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Découvrez notre gamme d'appareils photo vintage, Appareil photo de haute performance, une sélection de caméra style vintage. ">
-	<meta name="author" content="kaouech Mouheb"/>
-	<meta name="robots" content="index, follow">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/home.css" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-
-    <title>Appareil photo, camèra vintage</title>
-  </head>
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+/*creation d'un menu pour les page en javascript*/
+const menuJs = document.getElementById('menu');
+menuJs.innerHTML = `
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand h1" href="index.html">Ma camèra Vintage</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -41,25 +24,11 @@
           </ul>
         </div>
       </nav>
-    </header>
-    <main>
-      <h1 class="text-center py-3">Caméra vintage sélection</h1>
-      <div class="container">
-        <div class="row" id="row-test">
-        </div>
-      </div>
-      <!--media social share-->
-      <aside>
-          <div class="social-media display-none social-media_opacity">
-            <a href="#"><img src="/images/facebook.png" alt="facebook Caméra vintage" title="facebook"></a>
-            <a href="#"><img src="/images/instagram.png" alt ="instagram Caméra vintage" title="Instagram"></a>
-            <a href="#"><img src="/images/icones-reseaux-sociaux-designdeck.png" alt="Pinterest Caméra vintage" title="Pinterest"></a>
-            <a href="#"><img src="/images/share.png" alt="share Caméra vintage" title="Share"></a>
-          </div>
-      </aside>
-    </main>
-
-    <!-- Footer -->
+`;
+/*création d'un footer en javascript*/
+const footerJS = document.getElementById('footer');
+footerJS.innerHTML =`
+<!-- Footer -->
 <footer class="page-footer font-small bg-dark lighten-3 text-light">
   <!-- Footer Elements -->
   <div class="container py-4">
@@ -95,14 +64,5 @@
   <div class="footer-copyright text-center text-light bg-dark_custom">© 2020 Copyright:
     <a href="#" class="text-light"> Ma camèra vintage.com</a>
   </div>
-
 </footer>
-    <!-- JavaScript -->
-    <script src="js/home.js"></script>
-     <script src="https://kit.fontawesome.com/b213770be2.js" crossorigin="anonymous"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-  </body>
-</html>
+`;

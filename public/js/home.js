@@ -10,23 +10,20 @@ const fetchCameras = fetch(url)
     });
     ProductJs(zurss, zurssDescription, data[0].name, data[0].imageUrl, data[0].description, data[0].price, data[0].lenses[0], data[0].lenses[1]);
     ProductJs(hirschProduct, hirschDescription, data[1].name, data[1].imageUrl, data[1].description, data[1].price, data[1].lenses[0], data[1].lenses[1]);
-
     ProductJs(Franck, FranckDescription, data[2].name, data[2].imageUrl, data[2].description, data[2].price, data[2].lenses[0], data[2].lenses[1]);
-
     ProductJs(Kuros, KurosDescription, data[3].name, data[3].imageUrl, data[3].description, data[3].price, data[3].lenses[0], data[3].lenses[1]);
-
     ProductJs(Katatone, KatatoneDescription, data[4].name, data[4].imageUrl, data[4].description, data[4].price, data[4].lenses[0], data[4].lenses[1]);
-    /*creation d'une function qui permet d'attendre le telechargement de l'ensemble de code avant de s'exucuter*/
-    document.onload = (()=>{
-      document.querySelectorAll("div > span")[0].innerHTML = `<strong><a href="zurss-50S.html" class="">Détail</stong></a>`;
-      document.querySelectorAll("div > span")[1].innerHTML = `<strong><a href="Hirsch-400DTS.html" class="">Détail</stong></a>`;
-      document.querySelectorAll("div > span")[2].innerHTML = `<strong><a href="Franck-JS-105.html" class="">Détail</stong></a>`;
-      document.querySelectorAll("div > span")[3].innerHTML = `<strong><a href="Kuros-TTS.html" class="">Détail</stong></a>`;
-      document.querySelectorAll("div > span")[4].innerHTML = `<strong><a href="Katatone.html" class="">Détail</stong></a>`;
-     })();
-     
-
+    attendreAsync();
   });
+  /*creation d'une function asynchrone qui permet d'attendre le telechargement de l'ensemble de code avant de s'exucuter*/
+  async function attendreAsync() {
+    document.querySelectorAll("div > span")[0].innerHTML = `<strong><a href="zurss-50S.html" class="">Détail</stong></a>`;
+    document.querySelectorAll("div > span")[1].innerHTML = `<strong><a href="Hirsch-400DTS.html" class="">Détail</stong></a>`;
+    document.querySelectorAll("div > span")[2].innerHTML = `<strong><a href="Franck-JS-105.html" class="">Détail</stong></a>`;
+    document.querySelectorAll("div > span")[3].innerHTML = `<strong><a href="Kuros-TTS.html" class="">Détail</stong></a>`;
+    document.querySelectorAll("div > span")[4].innerHTML = `<strong><a href="Katatone.html" class="">Détail</stong></a>`;
+  };
+
   /*creation des parametres pour passer les differents id dans la functions ProductJs*/
   const zurss = "product";
   const zurssDescription = "product-description";

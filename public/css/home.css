@@ -43,17 +43,8 @@ h1{
     display: block
 }
 .animation-img{
-   opacity: 1;
-  -webkit-transform:scale(1);
-      -moz-transform:scale(1);
-      -o-transform:scale(1);
-      -ms-transform:scale(1);
-          transform:scale(1)
+   margin:1px auto 10px;
   }
-.h2-orientation{
-    transform: rotate(10deg);
-    text-align: center
-}
 
 /*modification de footer*/
 .bg-dark_custom{
@@ -161,6 +152,16 @@ h1{
     font-size: 1.6em;
     text-align: center
 }
+.span-button{
+    background: rgba(248, 204, 8, 0.932);
+    padding:2px 8px;
+    font-size: 1.7em;
+    border-radius: 0.3em;
+    cursor: pointer; 
+    opacity: 1;
+    transition: 0.1s ease-in;
+}
+
  
   
 

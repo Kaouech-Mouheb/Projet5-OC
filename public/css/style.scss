@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
+body{
+    background:#f3e9f1}
+.nav-bar_custom{
+    background-color: #2e2d2e;
+    height: 50px;
+    -webkit-box-shadow: -2px 9px 16px 0px rgba(176,160,176,1);
+    -moz-box-shadow: -2px 9px 16px 0px rgba(176,160,176,1);
+    box-shadow: -2px 9px 16px 0px rgba(176,160,176,1);
+    margin-bottom: 3px;
+    .nav-link{
+         color:white;
+        }
+    .active{
+       position: absolute;
+       left:5px;
+           background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+            -webkit-text-fill-color:transparent;
+            -webkit-background-clip: text;
+            font-weight: bold;
+            font-size: 1.5em
+        }
+    }
+div.orinoco-bloc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #f3e9f1;
+   
+    i{
+           background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+            -webkit-text-fill-color:transparent;
+            -webkit-background-clip: text;
+        }
+    h1{
+        font-family:'Finger Paint', cursive, sans-serif;
+            span{
+                font-size: 0.36em;
+                display: block;
+                text-align: center}
+         }
+    }
+    .orinoco-items{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+         background-color: #f3e9f1;
+         margin:20px auto 40px;
+         span{
+             text-align: center;
+             i{
+              background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+            -webkit-text-fill-color:transparent;
+            -webkit-background-clip: text;
+            font-size: 40px;
+            margin:8px auto;
+                }
+                    span{
+                        display: block;
+                        font-size: 0.8em;
+                        font-family:'Finger Paint', cursive, sans-serif;
+                        }
+        }
+    
+    }
+      
+.footer-align_items{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:40px;
+    a{  
+        margin-right: 40px;
+        display: block;
+        color:black;}
+     }     
+.social-media{
+    font-size: 2em;}
+.footer-copyright{
+    a{
+        color:grey;}
+    }
+.product-card{
+    margin:15px auto;
+    padding: 10px;
+    background: transparent;
+    .card{
+        padding: 10px;
+        background-color: #f3e9f1;
+        .btn-primary{
+            background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+            width:150px;
+            margin:1px auto;}}
+    }

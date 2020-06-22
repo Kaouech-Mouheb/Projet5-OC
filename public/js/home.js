@@ -8,13 +8,8 @@ const fetchCameras = fetch(url)
   })
   .then(response => response.json())
   .then((data) => {
-      console.log(data);
       /*Parcourir le tableau avec une for of et insersation de differentes sections*/
-      let myMap = new Map();
-      myMap = data;
-      console.log(typeof myMap)
-      myMap.forEach((getCamera) => { 
-
+      data.map(getCamera => { 
             /*creation d'une div, model de carte inspiré de bootstrap */
           const divProduct = document.createElement("div");
           divProduct.classList.add("col-md-4", "col-sm-12","product-card");

@@ -10,39 +10,43 @@ const fetchCameras = fetch(url)
   .then((data) => {
       console.log(data);
       /*Parcourir le tableau avec une for of et insersation de differentes sections*/
-      for (let getCamera of data){
-            /*creation d'une div, model de carte inspiré de bootstrap */
-          let divProduct = document.createElement("div");
-          divProduct.classList.add("col-md-4", "product-card");
-          
-          let divCard = document.createElement("div");
-          divCard.classList.add("card");
-          divCard.style.width = "18 rem";
+      let myMap = new Map();
+      myMap = data;
+      console.log(typeof myMap)
+      myMap.forEach((getCamera) => { 
 
-          let image = document.createElement("img");
+            /*creation d'une div, model de carte inspiré de bootstrap */
+          const divProduct = document.createElement("div");
+          divProduct.classList.add("col-md-4", "col-sm-12","product-card");
+          
+          const divCard = document.createElement("div");
+          divCard.classList.add("card");
+          
+          const image = document.createElement("img");
           image.classList.add("card-img-top");
           image.setAttribute("src", getCamera.imageUrl);
+          image.setAttribute("max-width", "100%");
 
-          let cardBody = document.createElement("div");
+          const cardBody = document.createElement("div");
           cardBody.classList.add("card-body");
 
-          let cardTitle = document.createElement("h5");
+          const cardTitle = document.createElement("h5");
           cardTitle.classList.add("card-title");
           cardTitle.innerText = getCamera.name;
 
-          let cardText = document.createElement("p");
+          const cardText = document.createElement("p");
           cardText.classList.add("card-text");
           cardText.innerText = getCamera.description;
 
-          let buttonDetails = document.createElement("button");
+          const buttonDetails = document.createElement("button");
           buttonDetails.classList.add("btn", "btn-primary");
           buttonDetails.innerText ="Détail";
           
             /*creation d'une function qui ajoute le id produit dans le fichier details.html */
-          buttonDetails.addEventListener("click", () =>{
-                  document.location.href = "details.html?id=" + getCamera._id;             
+          buttonDetails.addEventListener("click", () =>
+              document.location.href = "details.html?id=" + getCamera._id           
             
-          })
+          )
           /*inserer les elements creer en javascript dans l'orde qui correspond au design prevu */
           divProduct.appendChild(image);
           divProduct.appendChild(divCard);
@@ -50,7 +54,8 @@ const fetchCameras = fetch(url)
           divCard.appendChild(cardText);
           divCard.appendChild(buttonDetails);
          section.appendChild(divProduct);
-      }
-  })
+      });
+
+  });
   
    

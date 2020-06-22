@@ -1,7 +1,3 @@
-
-
-
-
 /** recuperation du url de la page sous forme d'un objet*/
 const urlLocation = new URLSearchParams(window.location.search);
 
@@ -20,9 +16,10 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
         /**creation de la section qui permet d'afficher le produit */
         const blocImage = (() =>{
         const divImage = document.createElement("div");
-        divImage.classList.add("col-md-6", "col-sm-12");
+        divImage.classList.add("col-md-6", "col-sm-12", "img-custom");
         const imgImage = document.createElement("img");
         const divPrice = document.createElement("div");
+        divPrice.classList.add("img-custom");
         imgImage.src = cameras.imageUrl;
         divPrice.innerHTML =`<strong>Prix ${cameras.price / 100} Euros</strong>`;
         newProduct.appendChild(divImage);
@@ -33,7 +30,7 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
         /**creation de la section qui permet d'afficher la description et les options */
         const BlocDescription = (() =>{
             const divDescription = document.createElement("div");
-            divDescription.classList.add("col-md-6", "col-sm-12");
+            divDescription.classList.add("col-md-6", "col-sm-12", "div-custom");
             const nameProduct = document.createElement("h1");
             const pDescription = document.createElement("p");
             const labelOption = document.createElement("label");
@@ -41,6 +38,7 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
             const addButton = document.createElement("button");
             nameProduct.innerText = cameras.name;
             pDescription.innerHTML =`<strong>Description Produit <br></strong> ${cameras.description}.`;
+            labelOption.innerHTML =`<strong>Choisissez vos lentilles</strong>`;
             addButton.innerText=`Ajouter au panier`;
             cameras.lenses.map (el => { 
                 let option = document.createElement("option")
@@ -49,12 +47,12 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
                 option.innerHTML = lentilles;
                 selecOption.appendChild(option);
             });
-           
+
             newProduct.appendChild(divDescription);
+            divDescription.appendChild(nameProduct);
             divDescription.appendChild(pDescription);
             divDescription.appendChild(labelOption);
             divDescription.appendChild(selecOption);
-            divDescription.appendChild(nameProduct);
             divDescription.appendChild(addButton);
 
          })();
@@ -62,5 +60,4 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
         });
        
        
-
 

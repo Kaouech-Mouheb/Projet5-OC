@@ -26,6 +26,18 @@ body {
   font-size: 1.5em;
 }
 
+@media (max-width: 576px) {
+  .nav-bar_custom {
+    width: 100%;
+  }
+  .nav-bar_custom .active {
+    font-size: 0.8em;
+  }
+  .nav-bar_custom .nav-link {
+    font-size: 0.7em;
+  }
+}
+
 div.orinoco-bloc {
   display: flex;
   justify-content: center;
@@ -76,10 +88,9 @@ div.orinoco-bloc h1 span {
   font-family: 'Finger Paint', cursive, sans-serif;
 }
 
-.footer-align_items {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
+footer {
+  width: 100% !important;
+  background: black;
 }
 
 .footer-align_items a {
@@ -111,4 +122,94 @@ div.orinoco-bloc h1 span {
   background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
   width: 150px;
   margin: 1px auto;
+}
+
+#new-product {
+  margin: 20px auto 40px;
+  -webkit-box-shadow: -18px -3px 22px 0px rgba 0, 0, 0, 0, 75;
+  -moz-box-shadow: -18px -3px 22px 0px rgba 0, 0, 0, 0, 75;
+  shadow-box: -18px -3px 22px 0px rgba 0, 0, 0, 0, 75;
+}
+
+@media (max-width: 576px) {
+  #new-product .div-custom {
+    display: flex;
+    flex-direction: column;
+  }
+  #new-product .div-custom h1 {
+    order: 1;
+  }
+  #new-product .div-custom p {
+    order: 2;
+  }
+  #new-product .div-custom label {
+    order: 3;
+  }
+  #new-product .div-custom select {
+    order: 4;
+  }
+  #new-product .div-custom button {
+    order: 5;
+  }
+  #new-product .img-custom {
+    font-size: 0.9em;
+    font-weight: light;
+  }
+}
+
+#new-product h1 {
+  text-align: center;
+  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+@media (max-width: 576px) {
+  #new-product h1 {
+    font-size: 1.5em;
+  }
+}
+
+#new-product img {
+  -webkit-box-shadow: 4px 0px 40px -2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 4px 0px 40px -2px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 0px 40px -2px rgba(0, 0, 0, 0.75);
+  border: 6px solid white;
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+@media (max-width: 576px) {
+  #new-product img {
+    max-width: 100%;
+  }
+}
+
+#new-product label {
+  display: block;
+}
+
+#new-product button {
+  display: block;
+  margin: 10px auto;
+  background: black;
+  color: white;
+  border-radius: 1em;
+  padding: 5px;
+  border-color: black;
+  -webkit-box-shadow: -1px 1px 12px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -1px 1px 12px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: -1px 1px 12px -1px rgba(0, 0, 0, 0.75);
+  transform: scale(1);
+}
+
+#new-product button:hover {
+  transition: all 0.5s linear;
+  transform: scale(1.2);
+}
+
+@media (max-width: 576px) {
+  #new-product button {
+    max-width: 100%;
+  }
 }

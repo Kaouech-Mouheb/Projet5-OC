@@ -4,7 +4,7 @@ body {
 }
 
 .nav-bar_custom {
-  background-color: #2e2d2e;
+  background: black;
   height: 50px;
   -webkit-box-shadow: -2px 9px 16px 0px #b0a0b0;
   -moz-box-shadow: -2px 9px 16px 0px #b0a0b0;
@@ -96,11 +96,15 @@ footer {
 .footer-align_items a {
   margin-right: 40px;
   display: block;
-  color: black;
+  color: white;
 }
 
 .social-media {
   font-size: 2em;
+}
+
+.footer-copyright {
+  color: grey;
 }
 
 .footer-copyright a {

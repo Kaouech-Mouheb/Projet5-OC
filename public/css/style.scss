@@ -2,7 +2,7 @@
 body{
     background:#f3e9f1}
 .nav-bar_custom{
-    background-color: #2e2d2e;
+    background:black;
     height: 50px;
     -webkit-box-shadow: -2px 9px 16px 0px rgba(176,160,176,1);
     -moz-box-shadow: -2px 9px 16px 0px rgba(176,160,176,1);
@@ -65,26 +65,29 @@ div.orinoco-bloc{
             font-size: 40px;
             margin:8px auto;
                 }
-                    span{
-                        display: block;
-                        font-size: 0.8em;
-                        font-family:'Finger Paint', cursive, sans-serif;
-                        }
+                span{
+                    display: block;
+                    font-size: 0.8em;
+                    font-family:'Finger Paint', cursive, sans-serif;
+                    }
         }
     
-    }
+}
 footer{
     width:100% !important;
-    background: black}    
+    background: black
+    }    
 .footer-align_items{
     a{  
         margin-right: 40px;
         display: block;
-        color:black;}
-     }     
+        color: white
+        }
+ }   
 .social-media{
     font-size: 2em;}
 .footer-copyright{
+    color: grey;
     a{
         color:grey;}
     }

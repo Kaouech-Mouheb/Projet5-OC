@@ -12,7 +12,7 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
 
     .then(response => response.json())
     .then((data) => {
-       let cameras = data;
+        cameras = data;
         /**creation de la section qui permet d'afficher le produit */
         const blocImage = (() =>{
         const divImage = document.createElement("div");
@@ -35,7 +35,7 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
             const pDescription = document.createElement("p");
             const labelOption = document.createElement("label");
             const selecOption = document.createElement("select");
-            const addButton = document.createElement("button");
+            addButton = document.createElement("button");
             nameProduct.innerText = cameras.name;
             pDescription.innerHTML =`<strong>Description Produit <br></strong> ${cameras.description}.`;
             labelOption.innerHTML =`<strong>Choisissez vos lentilles</strong>`;
@@ -55,9 +55,31 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
             divDescription.appendChild(selecOption);
             divDescription.appendChild(addButton);
 
+
+            /*appeller la fonction qui stocke les informations dans le local storage */
+            addButton.addEventListener("click", () => newCameras());
          })();
 
         });
        
-       
+/*creer des parametre pour uriliser le local storage disponible dans le navigateur */
+    let cameras = null;
+    let button = null;
+    let cart = [];
+    const newCameras = () =>{
+        const camerasProduct ={
+            name: cameras.name,
+            image: cameras.imageUrl,
+            lenses:cameras.lenses,
+            price:cameras.price
+        }
+        const addToArray = (() =>{
+          let addCart = cart.push(camerasProduct);
+          addButton.addEventListener("click", () =>{
+              addCart++
+          })
+         console.log(cart)
+         localStorage.setItem("add", JSON.stringify(cart));
+      })()
+    }
 

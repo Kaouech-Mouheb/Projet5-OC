@@ -39,7 +39,7 @@ const fetchCameras = fetch(url)
           
             /*creation d'une function qui ajoute le id produit dans le fichier details.html */
           buttonDetails.addEventListener("click", () =>
-              document.location.href = "details.html?id=" + getCamera._id           
+              window.location.href = "details.html?id=" + getCamera._id           
             
           )
           /*inserer les elements creer en javascript dans l'orde qui correspond au design prevu */

@@ -1,3 +1,11 @@
+//afficher le nombre des elements dans le panier
+
+const paniers = () =>{
+  let panier = document.querySelector(".panier-number");
+  panier.innerText = `Panier (${localStorage.length})`;
+}
+paniers();
+
 /*appel de l'element du dom et le stocker dans variable */
 const section = document.getElementById("camera-bloc");
 
@@ -52,5 +60,7 @@ const fetchCameras = fetch(url)
       });
 
   });
-  
+
+
+
    

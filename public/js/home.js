@@ -1,11 +1,3 @@
-//afficher le nombre des elements dans le panier
-
-const paniers = () =>{
-  let panier = document.querySelector(".panier-number");
-  panier.innerText = `Panier (${localStorage.length})`;
-}
-paniers();
-
 /*appel de l'element du dom et le stocker dans variable */
 const section = document.getElementById("camera-bloc");
 
@@ -60,7 +52,26 @@ const fetchCameras = fetch(url)
       });
 
   });
-
-
+//creation d'un tableaux qui va stocker les dnnées du local storage
+let tablaux = [];
+let table;
+let tableur = [];
+// cette boucle elle parcour le local storage et stocke les données dans un tableaux
+for (var i = 0; i < localStorage.length; i++) {
+    tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));   
+}
+// une boucle qui va parcourir les données des tableaux
+for (let i = 0; i < tablaux.length; i++){
+    table = tablaux[i];
+//deuxiéme boucle qui va parcourie les autres tableaux fils
+    table.map(el =>{
+        tableur.push(el)
+    })
+}
+//affichage des nombres des produits dans la rubrique panier en haut de la page
+const panierNumber = document.querySelector(".panier-number span");
+panierNumber.innerText = tableur.length;
+console.log(tableur.length);
+ 
 
    

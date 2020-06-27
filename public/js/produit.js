@@ -1,24 +1,43 @@
-//afficher le nombre des elements dans le panier
-const paniers = () =>{
-    let panier = document.querySelector(".panier-number");
-    panier.innerText = `Panier (${localStorage.length})`;
-  }
-  paniers();
-
-/** recuperation du url de la page sous forme d'un objet*/
-const urlLocation = new URLSearchParams(window.location.search);
-
-/**recuperation de l'id  */
-const camerasId = urlLocation.get("id");
-
-
-/** marquage de la section qui va reçevoir les produits*/
+//creation d'un tableaux qui va stocker les dnnées du local storage
+let tablaux = [];
+let table;
+let tableur = [];
+// cette boucle elle parcour le local storage et stocke les données dans un tableaux
+for (var i = 0; i < localStorage.length; i++) {
+    tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));   
+}
+// une boucle qui va parcourir les données des tableaux
+for (let i = 0; i < tablaux.length; i++){
+    table = tablaux[i];
+//deuxiéme boucle qui va parcourie les autres tableaux fils
+    table.map(el =>{
+        tableur.push(el)
+    })
+}
+//affichage des nombres des produits dans la rubrique panier en haut de la page
+let numbers = tableur.length;
+const afficher = () =>{
+    const panierNumber = document.querySelector(".panier-number span");
+    panierNumber.innerText = numbers;
+}
+afficher () 
+ 
+//recuperation des données de l'URL de la page 
+const paramUrl = new URLSearchParams(window.location.search);
+// recuperation de l'id de l'Url
+const idUrl = paramUrl.get("id");
+//marquage de la section qui va reçevoir les produits
 const newProduct = document.querySelector("#new-product");
 
-fetch("http://localhost:3000/api/cameras/" + camerasId)
+// recuperation des données du server avec fetch
+const url = "http://localhost:3000/api/cameras/";
+fetch(url + idUrl)
+.catch(error =>{
+    throw new error(response.status)
+})
 .then(response => response.json())
-.then((data) => {
-    cameras = data;
+.then(data => {
+    let cameras = data;
     /**creation de la section qui permet d'afficher le produit */
     const divImage = document.createElement("div");
     divImage.classList.add("col-md-6", "col-sm-12", "img-custom");
@@ -43,9 +62,8 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
     pDescription.innerHTML =`<strong>Description Produit <br></strong> ${cameras.description}.`;
     labelOption.innerHTML =`<strong>Choisissez vos lentilles</strong>`;
     addButton.innerText=`Ajouter au panier`;
-    cameras.lenses.map (el => { 
+    cameras.lenses.map (lentilles => { 
         let option = document.createElement("option")
-        let lentilles = el;
         option.setAttribute("value", lentilles)
         option.innerHTML = lentilles;
         selecOption.appendChild(option);
@@ -58,35 +76,24 @@ fetch("http://localhost:3000/api/cameras/" + camerasId)
     divDescription.appendChild(selecOption);
     divDescription.appendChild(addButton);
 
-//appeller la fonction qui stocke les informations dans le local storage 
-    addButton.addEventListener("click", () => {
-        newCameras()
-        paniers();
-    });
-});
-       
-//Initialisation des variables pour stocker les données 
-    let cameras = null;
-    let button = null;
-    let cart = [];
-
-//creation d'une functions qui va permettre de stocker les données dans le local storage */
-const newCameras = () =>{
-    const camerasProduct ={
-        name: cameras.name,
-        image: cameras.imageUrl,
-        lenses:cameras.lenses,
-        description: cameras.description,
-        price:(cameras.price /100)
-    }
-    const addToArray = (() =>{
-        let addCart = cart.push(camerasProduct);
-        addButton.addEventListener("click", () =>{
-            addCart++
-        })
-        console.log(cart)
-        localStorage.setItem("add" + Math.random(), JSON.stringify(cart));
-    })()
+//Initialisation d'un tableaux qui va recevoir toutes les données 
+let cart = [];
+//choissez vos lentilles 
+let index = selecOption.selectedIndex;
+//stocker les données dans un object
+const camerasProduct = {
+    name: cameras.name,
+    image: cameras.imageUrl,
+    lenses: cameras.lenses[index],
+    description: cameras.description,
+    price:(cameras.price /100),
 }
-
-    
+//configuration du bouton ajoute au panier
+const ajouterAuPanier = addButton.addEventListener("click", () =>{
+    cart.push(camerasProduct); 
+    localStorage.setItem("add " + camerasProduct.name, JSON.stringify(cart));
+    numbers = numbers + 1;
+    afficher () 
+});
+   
+});

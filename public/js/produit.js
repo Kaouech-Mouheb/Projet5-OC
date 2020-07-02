@@ -18,6 +18,7 @@ for (let i = 0; i < tablaux.length; i++){
 let numbers = tableur.length;
 const afficher = () =>{
     const panierNumber = document.querySelector(".panier-number span");
+    
     panierNumber.innerText = numbers;
 }
 afficher () 
@@ -87,6 +88,7 @@ const camerasProduct = {
     lenses: cameras.lenses[index],
     description: cameras.description,
     price:(cameras.price /100),
+    id: cameras._id
 }
 //configuration du bouton ajoute au panier
 const ajouterAuPanier = addButton.addEventListener("click", () =>{

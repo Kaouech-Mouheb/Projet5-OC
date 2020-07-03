@@ -53,7 +53,7 @@ for (let i = 0; i < panierArray.length; i++) {
     total = data.price * table.length;
     priceproduct.innerText = `Prix : ${total} euros`;
     totals.push(data.price);
-    products.push(data.id)
+    products.push(data.id);
     // creation d'un bouton qui va supprimer les elements
     sup.addEventListener("click", () => {
       localStorage.removeItem("add " + data.name);
@@ -68,113 +68,112 @@ totalId.innerText = `${prix} euros`;
 //affichage des nombres des produits dans la rubrique panier en haut de la page
 const panierNumber = document.querySelector(".panier-number span");
 panierNumber.innerText = `${totals.length}`;
-  
-// vérification des données avant les envoyées au serveur
-document.getElementById("commande").addEventListener('submit', function(event){
-  let prenom = document.getElementById("inputPrenom4");
-  let prenomE = document.getElementById("prenom");
-  let prenomV = /^[a-zA-Z ,.'-]+$/;
 
-  let nom = document.getElementById("inputNom4");
-  let nomE = document.getElementById("nom");
-  let nomV = /^[a-zA-Z ,.'-]+$/;
+// vérification des données avec les expressions réguliéres "REGEX" avant les envoyées au serveur
+document
+  .getElementById("commande")
+  .addEventListener("submit", function (event) {
+    let prenom = document.getElementById("inputPrenom4");
+    let prenomE = document.getElementById("prenom");
+    let prenomV = /^[a-zA-Z ,.'-]+$/;
 
-  let mail = document.getElementById("inputEmail4");
-  let mailE = document.getElementById("mail");
-  let mailV = /^[a-z0-9._-]+@[a-z0-9.-]{2,}[.][a-z]{2,3}$/;
-  
-  let adresse = document.getElementById("inputAddress4");
-  let adresseE = document.getElementById("addresse");
-  let adresseV = /[0-9a-zA-Z]{1,3}[a-z ,.'-]+$/;
+    let nom = document.getElementById("inputNom4");
+    let nomE = document.getElementById("nom");
+    let nomV = /^[a-zA-Z ,.'-]+$/;
 
-  let ville = document.getElementById("inputCity");
-  let villeE = document.getElementById("ville");
-  let villeV = /^^[a-zA-Z ,.'-]+$/;
+    let mail = document.getElementById("inputEmail4");
+    let mailE = document.getElementById("mail");
+    let mailV = /^[a-z0-9._-]+@[a-z0-9.-]{2,}[.][a-z]{2,3}$/;
 
-  let status = false;
-  if (prenomV.test(prenom.value) == false){
-    prenomE.textContent = "Format de votre prénom incorrect";
-    prenomE.style.color = 'red';
-    status =false;
-    event.preventDefault();
-  }else{
-    status=true;
-  }
-  if (nomV.test(nom.value) == false){
-    nomE.textContent = "Format de votre nom incorrect";
-    nomE.style.color = 'red';
-    status=false
-    event.preventDefault();
-  }else{
-    status=true;
-  }
-  if (mailV.test(mail.value) == false){
-    mailE.textContent = "Format de votre e-mail incorrect";
-    mailE.style.color = 'red';
-    status=false;
-    event.preventDefault();
-  }else{
-    status=true;
-  }
-  if (adresseV.test(adresse.value) == false){
-    adresseE.textContent = "Format de votre adresse incorrect";
-    adresseE.style.color = 'red';
-    status=false;
-    event.preventDefault();
-  }else{
-    status=true;
-  }
-  if (villeV.test(ville.value) == false){
-    villeE.textContent = "Format de votre ville incorrect";
-    villeE.style.color = 'red';
-    status=false;
-    event.preventDefault();
-  }else{
-    status =true;
-}if(status == true){
+    let adresse = document.getElementById("inputAddress4");
+    let adresseE = document.getElementById("addresse");
+    let adresseV = /[0-9a-zA-Z]{1,3}[a-z ,.'-]+$/;
 
-  let contact = {
-    firstName: prenom.value,
-    lastName: nom.value,
-    address: adresse.value,
-    city: ville.value,
-    email: mail.value,
+    let ville = document.getElementById("inputCity");
+    let villeE = document.getElementById("ville");
+    let villeV = /^^[a-zA-Z ,.'-]+$/;
 
-  }
-  let commande = {
-    contact,
-    products
-  }
-   //convertir au l'objet au format json
-let orderJso = JSON.stringify(commande)
-xhr(orderJso)
+    let codePostal = document.getElementById("inputZip");
+    let codePostalE = document.getElementById("code-postal");
+    let codePostalV = /[0-9]{5}/g;
 
-}else{
-  event.preventDefault();
-  status =false;
-}
-  return status;
-})
+    if (prenomV.test(prenom.value) === false) {
+      prenomE.textContent = "Format de votre prénom incorrect";
+      prenomE.style.color = "red";
+      event.preventDefault();
+      return false;
+    }
+    if (nomV.test(nom.value) === false) {
+      nomE.textContent = "Format de votre nom incorrect";
+      nomE.style.color = "red";
+      event.preventDefault();
+      return false;
+    }
+    if (mailV.test(mail.value) === false) {
+      mailE.textContent = "veuillez saisir un email valide";
+      mailE.style.color = "red";
+      event.preventDefault();
+      return false;
+    }
+    if (adresseV.test(adresse.value) === false) {
+      adresseE.textContent = "veuillez saisir une adresse valide";
+      adresseE.style.color = "red";
+      event.preventDefault();
+      return false;
+    }
+    if (villeV.test(ville.value) === false) {
+      villeE.textContent = "veuillez saisir une ville valide";
+      villeE.style.color = "red";
+      event.preventDefault();
+      return false;
+    }
+    if (codePostalV.test(codePostal.value) === false) {
+      codePostalE.textContent = "veuillez saisir un code postal valide";
+      codePostalE.style.color = "red";
+      event.preventDefault();
+      return false;
+    } else {
+      let contact = {
+        firstName: prenom.value,
+        lastName: nom.value,
+        address: adresse.value,
+        city: ville.value,
+        email: mail.value,
+      };
+      let commande = {
+        contact,
+        products,
+      };
+      //convertir au l'objet au format json
+      let orderJso = JSON.stringify(commande);
 
+      xhr(orderJso);
 
+      status = true;
+    }
+    return true;
+  });
 // creation d'une function pour la requet ajax
-function xhr(data){
-let xhttp = false;
-if (window.XMLHttpRequest) {
-  // code for modern browsers
-  xhttp = new XMLHttpRequest();
-} else {
-  // code for old IE browsers
-  xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-}
-xhttp.onreadystatechange = function() {
-  if (this.readyState == XMLHttpRequest.DONE) {
-    let responseJson = JSON.parse(this.responseText);
-    sessionStorage.setItem("order", JSON.stringify(responseJson))
-
+function xhr(data) {
+  let xhttp = false;
+  if (window.XMLHttpRequest) {
+    // code for modern browsers
+    xhttp = new XMLHttpRequest();
+  } else {
+    // code for old IE browsers
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
   }
-};
-xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
-xhttp.setRequestHeader("Content-Type", "application/json");
-xhttp.send(data);
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == XMLHttpRequest.DONE) {
+      let responseJson = JSON.parse(this.responseText);
+      sessionStorage.setItem("order", JSON.stringify(responseJson));
+      sessionStorage.setItem("price", JSON.stringify(prix))
+      localStorage.clear();
+
+    }
+    window.location.href="confirmation.html";
+  };
+  xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(data);
 }

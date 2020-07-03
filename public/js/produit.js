@@ -1,12 +1,13 @@
-//creation d'un tableaux qui va stocker les dnnées du local storage
+//intialisation des variables
 let tablaux = [];
 let table;
 let tableur = [];
-// cette boucle elle parcour le local storage et stocke les données dans un tableaux
+// creation d'une methode qui va afficher le nombre des produits ajouter dans le local storage
+//1 on va parcourir les données de local storage qui sont stocké dans des tableaux
 for (var i = 0; i < localStorage.length; i++) {
     tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));   
 }
-// une boucle qui va parcourir les données des tableaux
+//2 un tableau peut contenir plusieur tableaux quand il s'agit de la même produit, donc on va parcouri les tableaux
 for (let i = 0; i < tablaux.length; i++){
     table = tablaux[i];
 //deuxiéme boucle qui va parcourie les autres tableaux fils
@@ -14,22 +15,20 @@ for (let i = 0; i < tablaux.length; i++){
         tableur.push(el)
     })
 }
-//affichage des nombres des produits dans la rubrique panier en haut de la page
+//affichage le nombre des produits dans la rubrique panier en haut de la page
 let numbers = tableur.length;
 const afficher = () =>{
     const panierNumber = document.querySelector(".panier-number span");
-    
     panierNumber.innerText = numbers;
 }
 afficher () 
  
-//recuperation des données de l'URL de la page 
+//recuperation de l'URL de la page produit
 const paramUrl = new URLSearchParams(window.location.search);
 // recuperation de l'id de l'Url
 const idUrl = paramUrl.get("id");
 //marquage de la section qui va reçevoir les produits
 const newProduct = document.querySelector("#new-product");
-
 // recuperation des données du server avec fetch
 const url = "http://localhost:3000/api/cameras/";
 fetch(url + idUrl)

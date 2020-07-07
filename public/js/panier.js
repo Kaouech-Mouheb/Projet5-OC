@@ -139,17 +139,16 @@ document
         address: adresse.value,
         city: ville.value,
         email: mail.value,
-      };
+      }
       let commande = {
         contact,
-        products,
-      };
+        products
+      }
+    
       //convertir au l'objet au format json
       let orderJso = JSON.stringify(commande);
-
       xhr(orderJso);
-
-      status = true;
+     
     }
     return true;
   });
@@ -169,9 +168,8 @@ function xhr(data) {
       sessionStorage.setItem("order", JSON.stringify(responseJson));
       sessionStorage.setItem("price", JSON.stringify(prix))
       localStorage.clear();
-
     }
-    window.location.href="confirmation.html";
+     window.location.href="confirmation.html";
   };
   xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
   xhttp.setRequestHeader("Content-Type", "application/json");

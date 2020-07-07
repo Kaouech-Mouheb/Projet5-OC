@@ -4,7 +4,7 @@ const section = document.getElementById("camera-bloc");
 const url = "http://localhost:3000/api/cameras";
 const fetchCameras = fetch(url)
   .catch((error) => {
-    throw new error(response.status);
+    throw new error(alert("Nous sommes désolés, un problème est survenue"))
   })
   .then((response) => response.json())
   .then((data) => {
@@ -70,4 +70,4 @@ for (let i = 0; i < tablaux.length; i++) {
 //affichage des nombres des produits dans la rubrique panier en haut de la page
 const panierNumber = document.querySelector(".panier-number span");
 panierNumber.innerText = tableur.length;
-console.log(tableur.length);
+

@@ -1,28 +1,3 @@
-//intialisation des variables
-let tablaux = [];
-let table;
-let tableur = [];
-// creation d'une methode qui va afficher le nombre des produits ajouter dans le local storage
-//1 on va parcourir les données de local storage qui sont stocké dans des tableaux
-for (var i = 0; i < localStorage.length; i++) {
-    tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));   
-}
-//2 un tableau peut contenir plusieur tableaux quand il s'agit de la même produit, donc on va parcouri les tableaux
-for (let i = 0; i < tablaux.length; i++){
-    table = tablaux[i];
-//deuxiéme boucle qui va parcourie les autres tableaux fils
-    table.map(el =>{
-        tableur.push(el)
-    })
-}
-//affichage le nombre des produits dans la rubrique panier en haut de la page
-let numbers = tableur.length;
-const afficher = () =>{
-    const panierNumber = document.querySelector(".panier-number span");
-    panierNumber.innerText = numbers;
-}
-afficher () 
- 
 //recuperation de l'URL de la page produit
 const paramUrl = new URLSearchParams(window.location.search);
 // recuperation de l'id de l'Url
@@ -90,7 +65,7 @@ const camerasProduct = {
     id: cameras._id
 }
 //configuration du bouton ajoute au panier
-const ajouterAuPanier = addButton.addEventListener("click", () =>{
+addButton.addEventListener("click", () =>{
     cart.push(camerasProduct); 
     localStorage.setItem("add " + camerasProduct.name, JSON.stringify(cart));
     numbers = numbers + 1;
@@ -98,3 +73,27 @@ const ajouterAuPanier = addButton.addEventListener("click", () =>{
 });
    
 });
+//intialisation des variables
+let tablaux = [];
+let table;
+let tableur = [];
+// creation d'une boucle qui va afficher le nombre des produits ajouter dans le local storage
+//1 on va parcourir les données de local storage qui sont stocké dans des tableaux
+for (var i = 0; i < localStorage.length; i++) {
+    tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));   
+}
+//2 un tableau peut contenir plusieur tableaux quand il s'agit de la même produit, donc on va parcouri les tableaux
+for (let i = 0; i < tablaux.length; i++){
+    table = tablaux[i];
+//deuxiéme boucle qui va parcourie les autres tableaux fils
+    table.map(el =>{
+        tableur.push(el)
+    })
+}
+//affichage le nombre des produits dans la rubrique panier en haut de la page
+let numbers = tableur.length;
+const afficher = () =>{
+    const panierNumber = document.querySelector(".panier-number span");
+    panierNumber.innerText = numbers;
+}
+afficher () 

@@ -1,10 +1,11 @@
-//recuperation des données stocké dans la session storage et les convertir en js
+//recuperer les données de la session storage et les convertir en object javascript
 const confirmation = sessionStorage.getItem("order");
 const confirmationJson = JSON.parse(confirmation);
 
 const price = sessionStorage.getItem("price");
 const priceJson = JSON.parse(price);
-//insersation des données dans la page html
+
+//ajouter le prix et l'identifiant de la commande dans le DOM
 const confirmationCommande = document.getElementById("id-commande");
 confirmationCommande.innerText = `Identifiant de commande : ${confirmationJson.orderId}`;
 

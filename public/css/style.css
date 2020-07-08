@@ -19,7 +19,13 @@ body {
 .nav-bar_custom .active {
   position: absolute;
   left: 5px;
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   font-weight: bold;
@@ -47,13 +53,19 @@ div.orinoco-bloc {
 }
 
 div.orinoco-bloc i {
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
 
 div.orinoco-bloc h1 {
-  font-family: 'Finger Paint', cursive, sans-serif;
+  font-family: "Finger Paint", cursive, sans-serif;
 }
 
 div.orinoco-bloc h1 span {
@@ -75,7 +87,13 @@ div.orinoco-bloc h1 span {
 }
 
 .orinoco-items span i {
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   font-size: 40px;
@@ -85,7 +103,7 @@ div.orinoco-bloc h1 span {
 .orinoco-items span span {
   display: block;
   font-size: 0.8em;
-  font-family: 'Finger Paint', cursive, sans-serif;
+  font-family: "Finger Paint", cursive, sans-serif;
 }
 
 footer {
@@ -123,7 +141,13 @@ footer {
 }
 
 .product-card .card .btn-primary {
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   width: 150px;
   margin: 1px auto;
 }
@@ -159,7 +183,13 @@ footer {
 
 #new-product h1 {
   text-align: center;
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
@@ -226,7 +256,13 @@ footer {
 .cart-panier h2 {
   padding: 20px;
   font-size: 1.5em;
-  background: -webkit-gradient(linear, left top, right bottom, from(orange), to(#9162f5));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    from(orange),
+    to(#9162f5)
+  );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }

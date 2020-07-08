@@ -1,20 +1,18 @@
-// recuperation des elements du dom
+// recuperation des elements du DOM
 const panierId = document.querySelector("#panier-produit");
 const totalId = document.querySelector("#total-produit");
-//recuperation des données dans le local storage
-let panierArray = [];
-/**creation d'une boucle for qui va parcourir le local storage */
-for (var i = 0; i < localStorage.length; i++) {
-  /**creation d'un variable qui stoker les donner converti au format javascript */
-  let elementJson = JSON.parse(localStorage.getItem(localStorage.key(i)));
-  /**insersation des donners au tableau precedent */
-  panierArray.push(elementJson);
-}
 //initialisation
+let panierArray = [];
 let table;
 let totals = [];
 let products = [];
-// creation d'un boucle for qui va parcourir le tableau et afficher les autres tableaux
+// parcourir le local storage
+for (var i = 0; i < localStorage.length; i++) {
+  let elementJson = JSON.parse(localStorage.getItem(localStorage.key(i)));
+  // stocker les donnees converti en object js dans le tableau panierArray
+  panierArray.push(elementJson);
+}
+// ajouter les données du tableau panierArray au DOM
 for (let i = 0; i < panierArray.length; i++) {
   table = panierArray[i];
   const productSection = document.createElement("div");
@@ -43,7 +41,6 @@ for (let i = 0; i < panierArray.length; i++) {
   productSection.appendChild(priceproduct);
   productSection.appendChild(sup);
 
-  // creation d'une seconde boucle qui va parcourir les index du tableau principal
   table.map((data) => {
     titre.innerText = data.name;
     image.setAttribute("src", data.image);
@@ -54,25 +51,38 @@ for (let i = 0; i < panierArray.length; i++) {
     priceproduct.innerText = `Prix : ${total} euros`;
     totals.push(data.price);
     products.push(data.id);
-    // creation d'un bouton qui va supprimer les elements
+    //utilisation d'un ecouteur addEventListener sur le bouton supprimer
     sup.addEventListener("click", () => {
       localStorage.removeItem("add " + data.name);
+      // actualiser la page
       document.location.reload(true);
     });
   });
 }
-//utilisation de la methode reduce() pour additionner les donnes du tableau total qui contient les prix
+// additioner les prix disponible dans le tableau avec la methode reduce
 const reducer = (accumulator, curren) => accumulator + curren;
-let prix = totals.reduce(reducer);
-totalId.innerText = `${prix} euros`;
-//affichage des nombres des produits dans la rubrique panier en haut de la page
+//afficher les produits dans la rubrique panier > menu du navigation
 const panierNumber = document.querySelector(".panier-number span");
-panierNumber.innerText = `${totals.length}`;
+const panierVide = document.getElementById("panier-vide");
+// afficher le total dans le panier
+let prix =(()=>{
+  if (totals.length === 0) {
+    totalId.innerText = `0.00 euros`;
+    panierNumber.innerText = `0`;
+    panierVide.innerText = " Votre panier est vide ";
+    return true;
+  }
+  totalId.innerText = `${totals.reduce(reducer)} euros`;
+  panierNumber.innerText = `${totals.length}`;
+  return totals.reduce(reducer)
+})();
 
-// vérification des données avec les expressions réguliéres "REGEX" avant les envoyées au serveur
+// utilisation d'un ecouteur addEventListener pour envoyer les données du formulaire
+// les données saisies par les utilisateur son controlé par REGEX
 document
   .getElementById("commande")
   .addEventListener("submit", function (event) {
+    //intialisation
     let prenom = document.getElementById("inputPrenom4");
     let prenomE = document.getElementById("prenom");
     let prenomV = /^[a-zA-Z ,.'-]+$/;
@@ -96,7 +106,7 @@ document
     let codePostal = document.getElementById("inputZip");
     let codePostalE = document.getElementById("code-postal");
     let codePostalV = /[0-9]{5}/g;
-
+    // conditions
     if (prenomV.test(prenom.value) === false) {
       prenomE.textContent = "Format de votre prénom incorrect";
       prenomE.style.color = "red";
@@ -132,46 +142,39 @@ document
       codePostalE.style.color = "red";
       event.preventDefault();
       return false;
+    }
+    if (panierArray.length < 1) {
+      alert("Votre panier est vide");
+      event.preventDefault();
+      return false;
     } else {
       let contact = {
         firstName: prenom.value,
         lastName: nom.value,
         address: adresse.value,
         city: ville.value,
-        email: mail.value,
-      }
+        email: mail.value
+      };
       let commande = {
         contact,
         products
-      }
-    
-      //convertir au l'objet au format json
-      let orderJso = JSON.stringify(commande);
-      xhr(orderJso);
-     
+      };
+      let order = JSON.stringify(commande);
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+          let responseJson = JSON.parse(this.responseText);
+          sessionStorage.setItem("order", JSON.stringify(responseJson));
+          sessionStorage.setItem("price", JSON.stringify(prix()));
+        }
+        window.location.href = "confirmation.html";
+      };
+      xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(order);
     }
+    localStorage.clear();
     return true;
   });
-// creation d'une function pour la requet ajax
-function xhr(data) {
-  let xhttp = false;
-  if (window.XMLHttpRequest) {
-    // code for modern browsers
-    xhttp = new XMLHttpRequest();
-  } else {
-    // code for old IE browsers
-    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == XMLHttpRequest.DONE) {
-      let responseJson = JSON.parse(this.responseText);
-      sessionStorage.setItem("order", JSON.stringify(responseJson));
-      sessionStorage.setItem("price", JSON.stringify(prix))
-      localStorage.clear();
-    }
-     window.location.href="confirmation.html";
-  };
-  xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send(data);
-}
+
+ 

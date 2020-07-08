@@ -1,16 +1,16 @@
-/*appel de l'element du dom et le stocker dans variable */
+//recuperation de l'element du DOM
 const section = document.getElementById("camera-bloc");
-
+//utilisation de la function fetch pour recuperer les donnees de la API
 const url = "http://localhost:3000/api/cameras";
 const fetchCameras = fetch(url)
   .catch((error) => {
-    throw new error(alert("Nous sommes désolés, un problème est survenue"))
+    throw new error(alert("Nous sommes désolés, un problème est survenue"));
   })
   .then((response) => response.json())
   .then((data) => {
-    /*Parcourir le tableau avec une for of et insersation de differentes sections*/
+    //utilisation de la function boocle map pour parcourir les donnees
     data.map((getCamera) => {
-      /*creation d'une div, model de carte inspiré de bootstrap */
+      //ajouter des BLOCS au DOM
       const divProduct = document.createElement("div");
       divProduct.classList.add("col-md-4", "col-sm-12", "product-card");
 
@@ -37,12 +37,12 @@ const fetchCameras = fetch(url)
       buttonDetails.classList.add("btn", "btn-primary");
       buttonDetails.innerText = "Détail";
 
-      /*creation d'une function qui ajoute le id produit dans le fichier details.html */
+      //utilisatin de l'ecouteur addEventListener pour la rederiction vers la page produit
       buttonDetails.addEventListener(
         "click",
         () => (window.location.href = "details.html?id=" + getCamera._id)
       );
-      /*inserer les elements creer en javascript dans l'orde qui correspond au design prevu */
+      // hiérarchiser et ajouter les blocs creer au DOM
       divProduct.appendChild(image);
       divProduct.appendChild(divCard);
       divCard.appendChild(cardTitle);
@@ -51,23 +51,23 @@ const fetchCameras = fetch(url)
       section.appendChild(divProduct);
     });
   });
-//creation d'un tableaux qui va stocker les dnnées du local storage
+// afficher le nombre des produits disponible dans le local storage
+//intialisation
 let tablaux = [];
 let table;
 let tableur = [];
-// cette boucle elle parcour le local storage et stocke les données dans un tableaux
+// parcourir le local storage et ajouter ces données au variable tableaux []
 for (var i = 0; i < localStorage.length; i++) {
   tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
 }
-// une boucle qui va parcourir les données des tableaux
+// parcourir le tableau et ajouter toute ces objets dans le tableau tableur
 for (let i = 0; i < tablaux.length; i++) {
   table = tablaux[i];
-  //deuxiéme boucle qui va parcourie les autres tableaux fils
+  //parcourir les tablaux[i]
   table.map((el) => {
     tableur.push(el);
   });
 }
-//affichage des nombres des produits dans la rubrique panier en haut de la page
+//afficher le nombre de produit dans la rubrique panier > menu du navigation
 const panierNumber = document.querySelector(".panier-number span");
 panierNumber.innerText = tableur.length;
-

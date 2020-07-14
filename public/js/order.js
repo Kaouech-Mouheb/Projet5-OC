@@ -11,3 +11,4 @@ confirmationCommande.innerText = `Identifiant de commande : ${confirmationJson.o
 
 const priceCommande = document.getElementById("price-commande");
 priceCommande.innerText = `Le montant de la commande : ${priceJson} €`;
+window.onload = localStorage.clear();

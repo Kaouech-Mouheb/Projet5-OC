@@ -1,73 +1,102 @@
-//recuperation de l'element du DOM
+// recuperation de l'element du DOM
 const section = document.getElementById("camera-bloc");
-//utilisation de la function fetch pour recuperer les donnees de la API
-const url = "http://localhost:3000/api/cameras";
+ // function qui remplace la methode appenchild
+ const append = (param1, param2) =>{
+  let a = param1;
+  let b = param2;
+  return a.appendChild(b)
+}
+
+const url = 'http://localhost:3000/api/cameras';
 const fetchCameras = fetch(url)
   .catch((error) => {
     throw new error(alert("Nous sommes désolés, un problème est survenue"));
   })
   .then((response) => response.json())
   .then((data) => {
-    //utilisation de la function boocle map pour parcourir les donnees
-    data.map((getCamera) => {
-      //ajouter des BLOCS au DOM
-      const divProduct = document.createElement("div");
-      divProduct.classList.add("col-md-4", "col-sm-12", "product-card");
+   //parcourir les données du serveur
+      data.map(getCamera => { 
 
-      const divCard = document.createElement("div");
-      divCard.classList.add("card");
+        const BlocProduct = () =>{
+         const divProduct = document.createElement("div");
+         divProduct.classList.add("col-md-4", "col-sm-12","product-card");
+         return divProduct;
+        } 
+        let blocProduct = BlocProduct()
 
-      const image = document.createElement("img");
-      image.classList.add("card-img-top");
-      image.setAttribute("src", getCamera.imageUrl);
-      image.setAttribute("max-width", "100%");
+        const Card = () =>{
+          const divCard = document.createElement("div");
+          divCard.classList.add("card");
+          return divCard;
+        }
+        let card = Card();
 
-      const cardBody = document.createElement("div");
-      cardBody.classList.add("card-body");
+        const ImageCard = () =>{
+          const image = document.createElement("img");
+          image.classList.add("card-img-top");
+          image.setAttribute("src", getCamera.imageUrl);
+          image.setAttribute("max-width", "100%");
+          return image;
+        }
+        let imageCard = ImageCard();
 
-      const cardTitle = document.createElement("h5");
-      cardTitle.classList.add("card-title");
-      cardTitle.innerText = getCamera.name;
+        const TitreCard = () =>{
+          const cardTitle = document.createElement("h5");
+          cardTitle.classList.add("card-title");
+          cardTitle.innerText = getCamera.name;
+          return cardTitle;
+        }
+        let titreCard = TitreCard();
 
-      const cardText = document.createElement("p");
-      cardText.classList.add("card-text");
-      cardText.innerText = getCamera.description;
+        const DescCard = () =>{
+          const cardText = document.createElement("p");
+          cardText.classList.add("card-text");
+          cardText.innerText = getCamera.description;
+          return cardText;
+        }
+        let descCard = DescCard();
 
-      const buttonDetails = document.createElement("button");
-      buttonDetails.classList.add("btn", "btn-primary");
-      buttonDetails.innerText = "Détail";
-
-      //utilisatin de l'ecouteur addEventListener pour la rederiction vers la page produit
-      buttonDetails.addEventListener(
-        "click",
-        () => (window.location.href = "details.html?id=" + getCamera._id)
-      );
-      // hiérarchiser et ajouter les blocs creer au DOM
-      divProduct.appendChild(image);
-      divProduct.appendChild(divCard);
-      divCard.appendChild(cardTitle);
-      divCard.appendChild(cardText);
-      divCard.appendChild(buttonDetails);
-      section.appendChild(divProduct);
-    });
+        const Details = () =>{
+          const buttonDetails = document.createElement("button");
+          buttonDetails.classList.add("btn", "btn-primary");
+          buttonDetails.innerText ="Détail";
+          /*creation d'une function qui ajoute le id produit dans le fichier details.html */
+          buttonDetails.addEventListener("click", () =>
+          window.location.href = "details.html?id=" + getCamera._id           
+          )
+          return buttonDetails;
+        }
+        let details = Details();
+        // hiérarchiser et ajouter les elements au DOM
+        append(section, blocProduct)
+        append(blocProduct, imageCard)
+        append(blocProduct, card)
+        append(card, titreCard);
+        append(card, descCard);
+        append(card, details);
+      })
+    
   });
-// afficher le nombre des produits disponible dans le local storage
-//intialisation
-let tablaux = [];
-let table;
-let tableur = [];
-// parcourir le local storage et ajouter ces données au variable tableaux []
-for (var i = 0; i < localStorage.length; i++) {
-  tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+// initialisation
+  let nombreProduct =[];
+// afficher le nombre de produit disponible dans le panier
+const afficherProduitPanier = () =>{
+  if(localStorage.length > 0){
+      for(let i = 0; i<localStorage.length; i++){
+          let products = JSON.parse(localStorage.getItem(localStorage.key(i)));
+         
+          if (products.length > 0){
+              products.map(els =>{
+                  nombreProduct.push(els)
+
+              })
+          }else{
+              nombreProduct.push(products)
+          }
+      }
+  }
+  const rubriquePanier = document.querySelector(".panier-number");
+  rubriquePanier.innerHTML = `Panier ( <span>${nombreProduct.length}</span> )`;
+ 
 }
-// parcourir le tableau et ajouter toute ces objets dans le tableau tableur
-for (let i = 0; i < tablaux.length; i++) {
-  table = tablaux[i];
-  //parcourir les tablaux[i]
-  table.map((el) => {
-    tableur.push(el);
-  });
-}
-//afficher le nombre de produit dans la rubrique panier > menu du navigation
-const panierNumber = document.querySelector(".panier-number span");
-panierNumber.innerText = tableur.length;
+afficherProduitPanier ()

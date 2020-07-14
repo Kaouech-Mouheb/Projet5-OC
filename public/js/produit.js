@@ -1,102 +1,147 @@
-//recuperation de l'URL de la page produit
 const paramUrl = new URLSearchParams(window.location.search);
 // recuperation de l'id de l'Url
 const idUrl = paramUrl.get("id");
 //recuperation d'un element du DOM
 const newProduct = document.querySelector("#new-product");
-//utilisation de la function fetch pour recuperer les donnees de la API
+//recuperation d'un element du DOM (panier > menu du navigation)
+const rubriquePanier = document.querySelector(".panier-number");
+// recuperation des données du server avec fetch
 const url = "http://localhost:3000/api/cameras/";
 fetch(url + idUrl)
-  .catch((error) => {
-    throw new error(response.status);
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    let cameras = data;
-    // ajouer les donneés au DOM
-    const divImage = document.createElement("div");
-    divImage.classList.add("col-md-6", "col-sm-12", "img-custom");
-    const imgImage = document.createElement("img");
-    const divPrice = document.createElement("div");
-    divPrice.classList.add("img-custom");
-    imgImage.src = cameras.imageUrl;
-    divPrice.innerHTML = `<strong>Prix ${cameras.price / 100} Euros</strong>`;
-    newProduct.appendChild(divImage);
-    divImage.appendChild(imgImage);
-    divImage.appendChild(divPrice);
+.catch(error =>{
+    throw new error(response.status)
+})
+.then(response => response.json())
+.then(data => {
+    /**creation de la section qui permet d'afficher le produit */
+    const Products = () =>{
+        const divImage = document.createElement("div");
+        divImage.classList.add("col-md-6", "col-sm-12", "img-custom");
+        return divImage;
+    }
+    let products = Products();
+
+    const Images = () =>{
+        const img = document.createElement("img");
+        img.src = data.imageUrl;
+        return img
+    }
+    let images = Images();
+    
+    const Prices = () =>{
+        const divPrice = document.createElement("div");
+        divPrice.classList.add("img-custom");
+        divPrice.innerHTML =`<strong>Prix ${data.price / 100} Euros</strong>`;
+        return divPrice;
+    }
+    let prices = Prices();
+   
+    newProduct.appendChild(products);
+    products.appendChild(images);
+    products.appendChild(prices);
 
     /**creation de la section qui permet d'afficher la description et les options */
-    const divDescription = document.createElement("div");
-    divDescription.classList.add("col-md-6", "col-sm-12", "div-custom");
-    const nameProduct = document.createElement("h1");
-    const pDescription = document.createElement("p");
-    const labelOption = document.createElement("label");
-    const selecOption = document.createElement("select");
-    addButton = document.createElement("button");
-    nameProduct.innerText = cameras.name;
-    pDescription.innerHTML = `<strong>Description Produit <br></strong> ${cameras.description}.`;
-    labelOption.innerHTML = `<strong>Choisissez vos lentilles</strong>`;
-    addButton.innerText = `Ajouter au panier`;
-    //parcourir le tableau des option
-    cameras.lenses.map((lentilles) => {
-      let option = document.createElement("option");
-      option.setAttribute("value", lentilles);
-      option.innerHTML = lentilles;
-      selecOption.appendChild(option);
-    });
-    // hiérarchiser et ajouter les bloc creer au DOM
-    newProduct.appendChild(divDescription);
-    divDescription.appendChild(nameProduct);
-    divDescription.appendChild(pDescription);
-    divDescription.appendChild(labelOption);
-    divDescription.appendChild(selecOption);
-    divDescription.appendChild(addButton);
+    const DescPro = () =>{
+        const divDescription = document.createElement("div");
+        divDescription.classList.add("col-md-6", "col-sm-12", "div-custom");
+        return divDescription;
+    }
+    let descPro = DescPro();
 
-    //Initialisation
-    let cart = [];
-    //choissez vos lentilles
-    let index = selecOption.selectedIndex;
+    const NameProd = () =>{
+        const nameProduct = document.createElement("h1");
+        nameProduct.innerText = data.name;
+        return nameProduct;
+    }
+    let nameProd = NameProd();
+
+    const Paragraphe = () =>{
+        const description = document.createElement("p");
+        description.innerHTML =`<strong>Description Produit <br></strong> ${data.description}.`;
+        return description;
+    }
+    let paragraphe = Paragraphe();
+
+    const Label = () =>{
+        const labelOption = document.createElement("label");
+        labelOption.innerHTML =`<strong>Choisissez vos lentilles</strong>`;
+        return labelOption;
+    }
+    let label = Label();
+
+    const Selected = () =>{
+        const selecOption = document.createElement("select");
+        data.lenses.map (lentilles => { 
+        let option = document.createElement("option")
+        option.setAttribute("value", lentilles)
+        option.innerHTML = lentilles;
+        selecOption.appendChild(option);
+        })
+        return selecOption;
+    };
+    let selected = Selected();
+   
+    //choissez vos lentilles 
+    let index = selected.selectedIndex;
     //stocker les données dans un object
     const camerasProduct = {
-      name: cameras.name,
-      image: cameras.imageUrl,
-      lenses: cameras.lenses[index],
-      description: cameras.description,
-      price: cameras.price / 100,
-      id: cameras._id,
-    };
-    //utilisation d'un ecouteur addEventListener pour des multiples tache
-    addButton.addEventListener("click", () => {
-      // ajouter les données du prouit au tabaleau cart []
-      cart.push(camerasProduct);
-      //stocker les données dans le local storage
-      localStorage.setItem("add " + camerasProduct.name, JSON.stringify(cart));
-      //ajouter +1 au variable numbers a chaque clique
-      numbers = numbers + 1;
-      //appeler la fucntion afficher
-      afficher();
-    });
-  });
-//afficher le nombre de produits dans la rubrique panier > menu du navigation
-//intialisation
-let tablaux = [];
-let table;
-let tableur = [];
-// parcourir le local srorage
-for (var i = 0; i < localStorage.length; i++) {
-  tablaux.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+        name: data.name,
+        image: data.imageUrl,
+        lenses: data.lenses[index],
+        description: data.description,
+        price:(data.price /100),
+        id: data._id
+    }
+    // verifier si le local storage contient des clés
+    let carts = [];
+    // verifier sur les produits snt disponible dans le local storage
+    if(localStorage.length > 0){
+        let producValue = JSON.parse(localStorage.getItem("panier" + data.name));
+        if (producValue != null){
+            producValue.map( data =>{
+                carts.push(data)
+            })
+        }
+    }
+    let numero = nombreProduct.length;
+    const AddToCard = () =>{
+        const addButton = document.createElement("button");
+        addButton.innerText=`Ajouter au panier`;
+        addButton.addEventListener("click", async function(){
+        carts.push(camerasProduct)       
+        localStorage.setItem("panier" + data.name, JSON.stringify(carts));
+        //ajouter + 1 a la rubrique panier > menu du navigation
+        numero = numero + 1 ;
+        rubriquePanier.innerHTML = `Panier ( <span>${numero}</span> )`;
+    })
+    return addButton
 }
-//parcourir tablaux[]
-for (let i = 0; i < tablaux.length; i++) {
-  table = tablaux[i];
-  table.map((el) => {
-    tableur.push(el);
-  });
+let addToCard = AddToCard();
+
+newProduct.appendChild(descPro);
+descPro.appendChild(nameProd);
+descPro.appendChild(paragraphe);
+descPro.appendChild(label);
+descPro.appendChild(selected);
+descPro.appendChild(addToCard);
+});
+//initialisation
+let nombreProduct = [];
+// afficher le nombre de produit disponible dans le panier
+const afficherProduitPanier = () =>{
+    if(localStorage.length > 0){
+        for(let i = 0; i<localStorage.length; i++){
+            let products = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            if (products.length > 0){
+                products.map(els =>{
+                    nombreProduct.push(els)
+                })
+            }else{
+                nombreProduct.push(products)
+            }
+        }
+    }
+    rubriquePanier.innerHTML = `Panier ( <span>${nombreProduct.length}</span> )`;
+    return nombreProduct
 }
-let numbers = tableur.length;
-//function permet d'afficher le nombre de produits dans la rubrique panier > menu du navigation
-const afficher = () => {
-  const panierNumber = document.querySelector(".panier-number span");
-  panierNumber.innerText = numbers;
-};
-afficher();
+afficherProduitPanier()

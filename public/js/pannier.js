@@ -197,6 +197,7 @@ const InfosClients = async function(event){
       city: ville.value,
       email: mail.value
     }
+    let commande = await JSON.stringify({contact, products})
     //envoie de la requête ajax au serveur
     // assurez la compatibiliter avec les anciens navigateurs
     let xhttp;
@@ -218,7 +219,7 @@ const InfosClients = async function(event){
   };
   xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
   xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send(JSON.stringify({contact, products}));
+  xhttp.send(commande);
    }
 }
 

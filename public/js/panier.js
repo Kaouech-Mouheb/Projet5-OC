@@ -1,7 +1,7 @@
 // recuperation des elements du DOM
 const panierId = document.querySelector("#panier-produit");
 const totalId = document.querySelector("#total-produit");
-//intialisation
+//intialisation des variables globale
 let panierArray = [];
 let totals = [];
 let prix;
@@ -9,10 +9,10 @@ let products = [];
 // parcourir le local storage
 for (var i = 0; i < localStorage.length; i++) {
   let elementJson = JSON.parse(localStorage.getItem(localStorage.key(i)));
-  // stocker les donnees converti en object js dans le tableau panierArray
+  // stocker les données converti en object js dans le tableau panierArray
   panierArray.push(elementJson);
 }
-//parcourir les donner du tableau panierArray et les afficher sous forme des produits
+//Afficher les données du tableau de maniére dynamique et générer la page panier
 panierArray.map((els) => {
   const productSection = () => {
     const productSection = document.createElement("div");
@@ -89,7 +89,7 @@ panierArray.map((els) => {
     return products;
   };
   productId();
-  // la function button suppr permet de supprimer un seul produits et actualiser la page
+  // création des évenemets qui doivent être gérées via le bouton supprimer
   const ButtonSuppr = () => {
     const sup = document.createElement("button");
     let supprimer = els;
@@ -100,12 +100,13 @@ panierArray.map((els) => {
     sup.innerHTML = `supprimer <i class="fa fa-trash" aria-hidden="true"></i>`;
     sup.addEventListener("click", () => {
       let getdata = localStorage.getItem("panier" + name);
+      // getdatajs = un tableau qui va contenir les données converti au format js
       let getdatajs = JSON.parse(getdata);
       //si le tableau contient un seul object supprimer le le tableau du local storage
       if (getdatajs.length === 1) {
         localStorage.removeItem("panier" + name);
         document.location.reload(true);
-        //si non supprime le dernier object du tableau à chaque clique
+        //si non, supprime le dernier object du tableau à chaque clique
       } else {
         getdatajs.pop();
         localStorage.setItem("panier" + name, JSON.stringify(getdatajs));
@@ -116,7 +117,7 @@ panierArray.map((els) => {
     return sup;
   };
   let buttonSuppr = ButtonSuppr();
-
+  // on construie la structure et la hiérarchie de la page
   panierId.appendChild(productS);
   productS.appendChild(titreP);
   productS.appendChild(img);
@@ -125,18 +126,19 @@ panierArray.map((els) => {
   productS.appendChild(prodQte);
   productS.appendChild(pricepro);
   productS.appendChild(buttonSuppr);
-
   //fin des boucles
 });
-// la function infosclients permet de controler les saisies des utilisateurs
-const InfosClients = async function (event) {
+// on controle les saisies utilisateurs avec les expressions réguliéres REGEX
+const InfosClients = function (event) {
+  // on Etablie les conditions qui doivent être remplie
   let prenom = document.getElementById("inputPrenom4");
   let prenomV = /^[a-zA-Z ,.'-]+$/;
   if (prenomV.test(prenom.value) === false) {
     let prenomE = document.getElementById("prenom");
     prenomE.innerText = `Format de votre Prénom incorrect`;
     prenomE.style.color = "red";
-    // la methode preventDefault bloquera le comportement parDéfaut du navigateur
+    //si les conditions ne sont remplies,
+    //on bloque le comportement par défaut du navigateur
     event.preventDefault();
     return false;
   }
@@ -189,12 +191,13 @@ const InfosClients = async function (event) {
     event.preventDefault();
     return false;
   }
+  //si le panier est vide, on bloc l'envoie du formulaire au serveur
   if (panierArray.length < 1) {
     alert("Votre panier est vide");
     event.preventDefault();
     return false;
   } else {
-    let contact = await {
+    let contact = {
       firstName: prenom.value,
       lastName: nom.value,
       address: adresse.value,
@@ -203,48 +206,59 @@ const InfosClients = async function (event) {
     };
     let commande = JSON.stringify({ contact, products });
     //envoie de la requête ajax au serveur
-    xhr(commande);
-  }
-};
-const xhr = function async(data) {
-  try {
-    let xhttp;
-    // assurez la compatibilité avec les anciens navigateurs
-    if (window.XMLHttpRequest) {
-      // code for modern browsers
-      xhttp = new XMLHttpRequest();
-    } else {
-      // code for old IE browsers
-      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xhttp.onreadystatechange = async function () {
-      if (this.readyState == XMLHttpRequest.DONE) {
-        let response = await this.responseText;
+    xhttp(commande)
+      .then(function (response) {
         let responsejs = JSON.parse(response);
         sessionStorage.setItem("order", JSON.stringify(responsejs));
         sessionStorage.setItem("price", JSON.stringify(prix));
-      }
-      window.location.href = "confirmation.html";
-    };
-    xhttp.open("POST", "http://localhost:3000/api/cameras/order", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.send(data);
-  } catch (error) {
-    alert("une erreur est survenue veuillez réessayer ultérieurement");
+        window.location.href = "confirmation.html";
+      })
+      .catch(function (error, event) {
+        alert(error);
+      });
   }
 };
-
+// initialisation de la requête ajax à envoyer au serveur
+const xhttp = (data) => {
+  // declaration d'une nouvelle promesse
+  return new Promise((resolve, reject) => {
+    let xhr;
+    if (window.XMLHttpRequest) {
+      // code for modern browsers
+      xhr = new XMLHttpRequest();
+    } else {
+      // code for old IE browsers
+      xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        if (this.status === 201) {
+          resolve(this.responseText);
+        } else {
+          reject(`Une erreur de type ${this.status} est survenue`);
+        }
+      }
+    };
+    xhr.open("POST", "http://localhost:3000/api/cameras/order", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(data);
+  });
+};
+// ajouter un ecouteur d'événement au bouton Validez
 const validez = document.getElementById("commande");
 validez.addEventListener("submit", InfosClients);
 
 const TotalsPro = () => {
+  // initilaisation de la methode reducer qui va additionner les valeurs du tableaux totals
   const reducer = (accumulator, curren) => accumulator + curren;
   const totalId = document.querySelector("#total-produit");
   const panierVide = document.getElementById("panier-vide");
+  // conditon a éxecuter si le tableau totals est vide
   if (totals.length === 0) {
     totalId.innerText = `0.00 euros`;
     panierVide.innerText = " Votre panier est vide ";
     return true;
+    // conditon a éxecuter dans le cas contraire
   } else {
     prix = totals.reduce(reducer);
     const rubriquePanier = document.querySelector(".panier-number");

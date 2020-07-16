@@ -246,18 +246,18 @@ const InfosClients = function (e) {
         "Content-Type": "application/json"
       }
     };
-     // envoie de la requête et création des promesses qui doivent être remplie
     return fetch("http://localhost:3000/api/cameras/order", options)
       .then((response) => response.json())
       .then((data) => {
-        sessionStorage.setItem("order", JSON.stringify(data))
-        sessionStorage.setItem("price", JSON.stringify(prix))
-        window.location.href = "confirmation.html"
-      }).catch((error) => {
-        throw new error(alert("Nous sommes désolés, un problème est survenue"))
+        sessionStorage.setItem("order", JSON.stringify(data));
+        sessionStorage.setItem("price", JSON.stringify(prix));
+        window.location.href = "confirmation.html";
       })
+      .catch((error) => {
+        throw new error(alert("Nous sommes désolés, un problème est survenue"));
+      });
   }
 };
 const validez = document.getElementById("commande");
- // l'événement qui se fait lorsqu'on clique sur le bouton
+// l'événement qui se fait lorsqu'on clique sur le bouton
 validez.addEventListener("submit", InfosClients);

@@ -1,10 +1,9 @@
-// recuperation des elements du DOM
+// récupèration des elements du DOM
 const panierId = document.querySelector("#panier-produit");
 const totalId = document.querySelector("#total-produit");
 // parcourir le local storage
 const panier = () => {
-  let panierArray = [];
-  // parcourir le local storage
+  const panierArray = [];
   for (var i = 0; i < localStorage.length; i++) {
     let elementJson = JSON.parse(localStorage.getItem(localStorage.key(i)));
     // stocker les données converti en object js dans le tableau panierArray
@@ -13,13 +12,13 @@ const panier = () => {
   return panierArray;
 };
 const paniers = panier();
-
+// création de la section produit
 const productSection = () => {
   const productSection = document.createElement("div");
   productSection.classList.add("cart-panier", "col-md-6", "col-sm-12", "my-4");
   return productSection;
 };
-
+//mise en forme de l'image produit
 const image = (els) => {
   const image = document.createElement("img");
   image.classList.add("img-thumbnail");
@@ -29,7 +28,7 @@ const image = (els) => {
   });
   return image;
 };
-
+//mise en forme du titre
 const titre = (els) => {
   const titre = document.createElement("h2");
   let titreh2 = els;
@@ -38,7 +37,7 @@ const titre = (els) => {
   });
   return titre;
 };
-
+//mise en forme de la description produit
 const description = (els) => {
   const description = document.createElement("p");
   description.classList.add("description-panier");
@@ -48,15 +47,16 @@ const description = (els) => {
   });
   return description;
 };
-
+//mise en forme de la section quantité produit
 const productsQte = (els) => {
   const productqte = document.createElement("p");
   productqte.classList.add("quantite-produit");
   productqte.innerText = ` Quantités : ${els.length}`;
   return productqte;
 };
-//intialisation des variables globale
+//intialisation d'un variable globale
 const totals = [];
+// mise en forme de la section prix produit
 const priceproducts = (els) => {
   const priceproduct = document.createElement("p");
   priceproduct.classList.add("prix-produit");
@@ -67,7 +67,7 @@ const priceproducts = (els) => {
   });
   return priceproduct;
 };
-
+// mise en forme de la section lentilles produit
 const LentillesOptions = (els) => {
   const lentillesOptions = document.createElement("p");
   let options = els;
@@ -76,8 +76,9 @@ const LentillesOptions = (els) => {
   });
   return lentillesOptions;
 };
+//initialisation d'un variable global
 const products = [];
-
+//récupèration des identifiants des produits
 const productId = (els) => {
   let produitId = els;
   produitId.map((el) => {
@@ -85,7 +86,7 @@ const productId = (els) => {
   });
   return products;
 };
-// création des évenemets qui doivent être gérées via le bouton supprimer
+// création du bouton supprimer et les évenemets qui doivent être gérées à travers lui,
 const buttonSu = (els) => {
   const sup = document.createElement("button");
   let supprimer = els;
@@ -95,10 +96,11 @@ const buttonSu = (els) => {
   });
   sup.innerHTML = `supprimer <i class="fa fa-trash" aria-hidden="true"></i>`;
   sup.addEventListener("click", () => {
+    // on récupère le contenu du panier
     let getdata = localStorage.getItem("panier" + name);
     // getdatajs = un tableau qui va contenir les données converti au format js
     let getdatajs = JSON.parse(getdata);
-    //si le tableau contient un seul object supprimer le le tableau du local storage
+    //si le tableau contient un seul object on supprime le tableau du local storage
     if (getdatajs.length === 1) {
       localStorage.removeItem("panier" + name);
       document.location.reload(true);
@@ -112,7 +114,7 @@ const buttonSu = (els) => {
   });
   return sup;
 };
-//Afficher les données du tableau de maniére dynamique et générer la page panier
+//Générer la page panier.html et récupérer les données du localStorage à travers la boucle map
 paniers.map((els) => {
   const productS = productSection();
   const img = image(els);
@@ -132,10 +134,31 @@ paniers.map((els) => {
   productS.appendChild(prodQte);
   productS.appendChild(pricepro);
   productS.appendChild(buttonSuppr);
-  //fin des boucles
+  //fin de boucle
 });
-
-// on controle les saisies utilisateurs avec les expressions réguliéres REGEX
+let prix;
+// incrémenter le prix total des produits dans la section total TTC
+const TotalsPro = () => {
+  // Initialisation de la méthode reducer qui va additionner les valeurs du tableau totals
+  const reducer = (accumulator, curren) => accumulator + curren;
+  const totalId = document.querySelector("#total-produit");
+  const panierVide = document.getElementById("panier-vide");
+  // Condition à exécuter si le tableau totals est vide
+  if (totals.length === 0) {
+    totalId.innerText = `0.00 euros`;
+    panierVide.innerText = " Votre panier est vide ";
+    return true;
+    // Condition à exécuter dans le cas contraire
+  } else {
+    prix = totals.reduce(reducer);
+    const rubriquePanier = document.querySelector(".panier-number");
+    rubriquePanier.innerHTML = `Panier ( <span>${totals.length}</span> )`;
+    totalId.innerText = `${prix} euros`;
+  }
+  return totalId;
+};
+TotalsPro();
+// on contrôle les saisis utilisateurs avec les expressions régulières REGEX
 const InfosClients = function (e) {
   // on Etablie les conditions qui doivent être remplie
   const prenom = document.getElementById("inputPrenom4");
@@ -211,74 +234,30 @@ const InfosClients = function (e) {
       city: ville.value,
       email: mail.value,
     };
-    let order = {
+    let commande = {
       contact,
-      products,
+      products
     };
-    const commande = JSON.stringify(order);
-    //envoie de la requête ajax au serveur
-    xhttp(commande)
-      .then(function (response) {
-        let responsejs = JSON.parse(response);
-        sessionStorage.setItem("order", JSON.stringify(responsejs));
-        sessionStorage.setItem("price", JSON.stringify(prix));
-        window.location.href = "confirmation.html";
-      })
-      .catch(function (error, e) {
-        alert(error);
-        e.preventDefault();
-        return false;
-      });
-  }
-};
-// initialisation de la requête ajax à envoyer au serveur
-const xhttp = (data) => {
-  // declaration d'une nouvelle promesse
-  return new Promise((resolve, reject) => {
-    let xhr;
-    if (window.XMLHttpRequest) {
-      // code for modern browsers
-      xhr = new XMLHttpRequest();
-    } else {
-      // code for old IE browsers
-      xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4) {
-        if (this.status === 201) {
-          resolve(this.responseText);
-        } else {
-          reject(`Une erreur de type ${this.status} est survenue`);
-        }
+    // préparation de la requête qui va être envoyée au serveur
+    const options = {
+      method: "POST",
+      body: JSON.stringify(commande),
+      headers: {
+        "Content-Type": "application/json"
       }
     };
-    xhr.open("POST", "http://localhost:3000/api/cameras/order", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(data);
-  });
-};
-// ajouter un ecouteur d'événement au bouton Validez
-const validez = document.getElementById("commande");
-validez.addEventListener("submit", InfosClients);
-//initialisation
-let prix;
-const TotalsPro = () => {
-  // initilaisation de la methode reducer qui va additionner les valeurs du tableaux totals
-  const reducer = (accumulator, curren) => accumulator + curren;
-  const totalId = document.querySelector("#total-produit");
-  const panierVide = document.getElementById("panier-vide");
-  // conditon a éxecuter si le tableau totals est vide
-  if (totals.length === 0) {
-    totalId.innerText = `0.00 euros`;
-    panierVide.innerText = " Votre panier est vide ";
-    return true;
-    // conditon a éxecuter dans le cas contraire
-  } else {
-    prix = totals.reduce(reducer);
-    const rubriquePanier = document.querySelector(".panier-number");
-    rubriquePanier.innerHTML = `Panier ( <span>${totals.length}</span> )`;
-    totalId.innerText = `${prix} euros`;
+     // envoie de la requête et création des promesses qui doivent être remplie
+    return fetch("http://localhost:3000/api/cameras/order", options)
+      .then((response) => response.json())
+      .then((data) => {
+        sessionStorage.setItem("order", JSON.stringify(data))
+        sessionStorage.setItem("price", JSON.stringify(prix))
+        window.location.href = "confirmation.html"
+      }).catch((error) => {
+        throw new error(alert("Nous sommes désolés, un problème est survenue"))
+      })
   }
-  return totalId;
 };
-TotalsPro();
+const validez = document.getElementById("commande");
+ // l'événement qui se fait lorsqu'on clique sur le bouton
+validez.addEventListener("submit", InfosClients);

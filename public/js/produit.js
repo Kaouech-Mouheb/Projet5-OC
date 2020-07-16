@@ -5,8 +5,8 @@ const idUrl = paramUrl.get("id");
 const newProduct = document.querySelector("#new-product");
 //recuperation d'un element du DOM (panier > menu du navigation)
 const rubriquePanier = document.querySelector(".panier-number");
-// recuperation des données du server avec fetch
 
+//générer la page produit avec la méthode DOM du javascript
 const product = () => {
   const divImage = document.createElement("div");
   divImage.classList.add("col-md-6", "col-sm-12", "img-custom");
@@ -62,22 +62,23 @@ const select = (camera) => {
 };
 
 // on vérifie si le local storage contient des entrées
-// initialisation du tableau qui va contenir les données à stocké
-const panierItem = (camera) =>{
+const panierItem = (camera) => {
   let carts = [];
+  // condition si le local storage contient des entrées
   if (localStorage.length > 0) {
     let producValue = JSON.parse(localStorage.getItem("panier" + camera.name));
+    //condition si le tableau recupérer posséde un valeur différent du null
     if (producValue != null) {
       producValue.map((data) => {
         carts.push(data);
       });
     }
   }
-  return carts
-}
-
-const detailProduct = (selected, camera) =>{
-  let index = selected.selectedIndex;
+  return carts;
+};
+// récuperation des données produit dans un object
+const detailProduct = (select, camera) => {
+  let index = select.selectedIndex;
   //stocker les données dans un objec
   const camerasProduct = {
     name: camera.name,
@@ -87,12 +88,13 @@ const detailProduct = (selected, camera) =>{
     price: camera.price / 100,
     id: camera._id,
   };
-  return camerasProduct
- }
-
+  return camerasProduct;
+};
+// creation du bouton d'ajout au panier
 const addToCar = (carts, detailProducts, camera) => {
   const addButton = document.createElement("button");
   addButton.innerText = `Ajouter au panier`;
+  // l'evenement qui se fait lorsque on clique sur le bouton
   addButton.addEventListener("click", () => {
     carts.push(detailProducts);
     localStorage.setItem("panier" + camera.name, JSON.stringify(carts));
@@ -101,7 +103,7 @@ const addToCar = (carts, detailProducts, camera) => {
   });
   return addButton;
 };
-
+//Générer la page produit.html et récupérer les données du serveur
 const url = "http://localhost:3000/api/cameras/";
 fetch(url + idUrl)
   .catch((error) => {
@@ -109,26 +111,22 @@ fetch(url + idUrl)
   })
   .then((response) => response.json())
   .then((camera) => {
-    
     const products = product();
     const images = image(camera);
     const prices = Prices(camera);
-
-    newProduct.appendChild(products);
-    products.appendChild(images);
-    products.appendChild(prices);
-
-    //création de la section qui permet d'afficher la description et les options 
-    
     const descPro = descProd();
     const nameProd = nameProdu(camera);
     const paragraphe = Paragraphe(camera);
     const label = labels();
     const selected = select(camera);
-    const detailProducts = detailProduct(selected, camera)
-    const carts = panierItem(camera)
-    let addToCard = addToCar(carts, detailProducts, camera);
+    const detailProducts = detailProduct(selected, camera);
+    const carts = panierItem(camera);
+    const addToCard = addToCar(carts, detailProducts, camera);
 
+    newProduct.appendChild(products);
+    products.appendChild(images);
+    products.appendChild(prices);
+    //création de la section qui permet d'afficher la description et les options
     newProduct.appendChild(descPro);
     descPro.appendChild(nameProd);
     descPro.appendChild(paragraphe);
@@ -136,4 +134,3 @@ fetch(url + idUrl)
     descPro.appendChild(selected);
     descPro.appendChild(addToCard);
   });
-

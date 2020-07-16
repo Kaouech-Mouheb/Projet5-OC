@@ -2,7 +2,7 @@
 const panierId = document.querySelector("#panier-produit");
 const totalId = document.querySelector("#total-produit");
 // parcourir le local storage
-const panier = () =>{
+const panier = () => {
   let panierArray = [];
   // parcourir le local storage
   for (var i = 0; i < localStorage.length; i++) {
@@ -10,18 +10,13 @@ const panier = () =>{
     // stocker les données converti en object js dans le tableau panierArray
     panierArray.push(elementJson);
   }
-  return panierArray
-}
-const paniers = panier()
+  return panierArray;
+};
+const paniers = panier();
 
 const productSection = () => {
   const productSection = document.createElement("div");
-  productSection.classList.add(
-    "cart-panier",
-    "col-md-6",
-    "col-sm-12",
-    "my-4"
-  );
+  productSection.classList.add("cart-panier", "col-md-6", "col-sm-12", "my-4");
   return productSection;
 };
 
@@ -90,7 +85,7 @@ const productId = (els) => {
   });
   return products;
 };
- // création des évenemets qui doivent être gérées via le bouton supprimer
+// création des évenemets qui doivent être gérées via le bouton supprimer
 const buttonSu = (els) => {
   const sup = document.createElement("button");
   let supprimer = els;
@@ -126,7 +121,7 @@ paniers.map((els) => {
   const prodQte = productsQte(els);
   const pricepro = priceproducts(els);
   const lenOptions = LentillesOptions(els);
-  productId(els)
+  productId(els);
   const buttonSuppr = buttonSu(els);
   // on construie la structure et la hiérarchie de la page
   panierId.appendChild(productS);
@@ -139,7 +134,6 @@ paniers.map((els) => {
   productS.appendChild(buttonSuppr);
   //fin des boucles
 });
-
 
 // on controle les saisies utilisateurs avec les expressions réguliéres REGEX
 const InfosClients = function (e) {
@@ -185,7 +179,7 @@ const InfosClients = function (e) {
     e.preventDefault();
     return false;
   }
-  
+
   const ville = document.getElementById("inputCity");
   const villeV = /^^[a-zA-Z ,.'-]+$/;
   if (villeV.test(ville.value) === false) {
@@ -195,7 +189,7 @@ const InfosClients = function (e) {
     e.preventDefault();
     return false;
   }
- 
+
   const codePostal = document.getElementById("inputZip");
   const codePostalV = /[0-9]{5}/g;
   if (codePostalV.test(codePostal.value) === false) {
@@ -209,35 +203,34 @@ const InfosClients = function (e) {
     alert("Votre panier est vide");
     e.preventDefault();
     return false;
-  }else{ 
-  
+  } else {
     let contact = {
       firstName: prenom.value,
       lastName: nom.value,
       address: adresse.value,
       city: ville.value,
-      email: mail.value
-    }
+      email: mail.value,
+    };
     let order = {
       contact,
-      products
-    }
+      products,
+    };
     const commande = JSON.stringify(order);
-   //envoie de la requête ajax au serveur
+    //envoie de la requête ajax au serveur
     xhttp(commande)
-    .then(function (response) {
-      let responsejs = JSON.parse(response);
-      sessionStorage.setItem("order", JSON.stringify(responsejs));
-      sessionStorage.setItem("price", JSON.stringify(prix));
-      window.location.href = "confirmation.html";
-    })
-    .catch(function (error, e) {
-      alert(error);
-      e.preventDefault();
-      return false;
-    });
+      .then(function (response) {
+        let responsejs = JSON.parse(response);
+        sessionStorage.setItem("order", JSON.stringify(responsejs));
+        sessionStorage.setItem("price", JSON.stringify(prix));
+        window.location.href = "confirmation.html";
+      })
+      .catch(function (error, e) {
+        alert(error);
+        e.preventDefault();
+        return false;
+      });
   }
-}
+};
 // initialisation de la requête ajax à envoyer au serveur
 const xhttp = (data) => {
   // declaration d'une nouvelle promesse

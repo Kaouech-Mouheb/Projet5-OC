@@ -77,13 +77,14 @@ const LentillesOptions = (els) => {
   return lentillesOptions;
 };
 //initialisation d'un variable global
-let products = [];
+const products = [];
 //récupèration des identifiants des produits
 const productId = (els) => {
   let produitId = els;
   produitId.map((el) => {
-    products.push(el.id)
-  })
+    products.push(el.id);
+  });
+  return products;
 };
 // création du bouton supprimer et les évenemets qui doivent être gérées à travers lui,
 const buttonSu = (els) => {
@@ -231,7 +232,7 @@ const InfosClients = function (e) {
       lastName: nom.value,
       address: adresse.value,
       city: ville.value,
-      email: mail.value,
+      email: mail.value
     };
     let commande = {
       contact,
@@ -252,7 +253,6 @@ const InfosClients = function (e) {
             sessionStorage.setItem("price", JSON.stringify(prix));
             window.location.href = "confirmation.html";
     });
-
   }
 };
 

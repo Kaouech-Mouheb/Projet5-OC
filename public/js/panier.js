@@ -77,14 +77,13 @@ const LentillesOptions = (els) => {
   return lentillesOptions;
 };
 //initialisation d'un variable global
-const products = [];
+let products = [];
 //récupèration des identifiants des produits
 const productId = (els) => {
   let produitId = els;
   produitId.map((el) => {
-    products.push(el.id);
-  });
-  return products;
+    products.push(el.id)
+  })
 };
 // création du bouton supprimer et les évenemets qui doivent être gérées à travers lui,
 const buttonSu = (els) => {
@@ -247,17 +246,16 @@ const InfosClients = function (e) {
       }
     };
     return fetch("http://localhost:3000/api/cameras/order", options)
-      .then((response) => response.json())
-      .then((data) => {
-        sessionStorage.setItem("order", JSON.stringify(data));
-        sessionStorage.setItem("price", JSON.stringify(prix));
-        window.location.href = "confirmation.html";
-      })
-      .catch((error) => {
-        throw new error(alert("Nous sommes désolés, un problème est survenue"));
-      });
+      .then(response => response.json())
+      .then(data => {
+            sessionStorage.setItem("order", JSON.stringify(data));
+            sessionStorage.setItem("price", JSON.stringify(prix));
+            window.location.href = "confirmation.html";
+    });
+
   }
 };
+
 const validez = document.getElementById("commande");
 // l'événement qui se fait lorsqu'on clique sur le bouton
 validez.addEventListener("submit", InfosClients);
